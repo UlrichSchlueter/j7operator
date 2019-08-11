@@ -1,0 +1,29 @@
+
+<table class="table table-striped table-sm">
+        <thead>
+                <tr>
+                   <th>#</th>
+                  <th>Name</th>
+                  <th>State</th>
+                  <th>Parent ActionID</th>
+                  <th>Result</th>
+                  <th>StartTime</th>
+                </tr>
+              </thead>
+              <tbody>
+                    {% for task in tasks %}
+                    {% if showFinalTaskStates or ( not task.isFinalState()) %}
+                    <tr>
+                        <td>{{ task.id }} </td>        
+                        <td>{{ task.name }} </td>        
+                        <td>{{ task.state }} </td>   
+                        <td>{{ task.actionID }} </td>               
+                        <td>{{ task.taskResult }} </td>  
+                        <td>{{ task.startTime | formatdatetime }} </td>   
+                        
+                    </tr>
+                    {% endif %}    
+                    {% endfor %}                    
+                
+              </tbody>
+            </table>

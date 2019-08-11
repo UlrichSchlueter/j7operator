@@ -1,0 +1,56 @@
+---
+layout: examples
+title: Dashboard Template
+extra_css: "dashboard.css"
+extra_js:
+  - "https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"
+  - "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
+  - "dashboard.js"
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href=  {{ url_for('static', filename='css/bootstrap.min.css') }} >
+    <link rel="stylesheet" href=  {{ url_for('static', filename='css/dashboard.css') }} >
+  
+    <title>Hello, world!  </title>
+  </head>
+  <body>
+      {% include 'topNavBar.html' %} 
+
+<div class="container-fluid">
+  <div class="row">
+    
+    {% include 'sideNavBar.html' %} 
+    {% if currentPage == "Dashboard" %}
+        {% include 'dashboardTab.html' %} 
+    {% elif currentPage == "Actions" %}
+        {% include 'actionsTab.html' %} 
+    {% elif currentPage == "Tasks" %}
+        {% include 'tasksTab.html' %} 
+    {% elif currentPage == "Jobs" %}
+        {% include 'jobsTab.html' %} 
+    {% else %}
+        {% include 'notImplemented.html' %} 
+    
+    {% endif %}    
+
+  </div>
+</div>
+
+<script src="{{url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+<script src="{{url_for('static', filename='js/feather.min.js') }}"></script>
+<script src="{{url_for('static', filename='js/Chart.min.js') }}"></script>
+<!-- <script src="{{url_for('static', filename='js/socket.io.min.js') }}"></script> -->
+<!-- <script src="{{url_for('static', filename='js/dashboard.js') }}"></script> -->
+<script src="{{url_for('static', filename='js/loadMe.js') }}"></script> 
+
+</body>
+</html>

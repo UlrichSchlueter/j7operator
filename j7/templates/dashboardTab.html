@@ -1,0 +1,60 @@
+
+    
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div id="Overview" class="container">
+            {% include 'overview.html' %}  
+            </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        
+        <h1 class="h2">Dashboard: Last Job Execution times</h1>     
+      </div>
+
+      <canvas class="my-4 w-100" id="myChart" width="400" height="100"></canvas>
+
+      
+      <div class="table-responsive">
+          
+              <div class="row">
+                <div class="col-sm">
+                    <h3>Actions
+                       <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href = '/test1';">Step By Step</button>
+                       <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href = '/test2';">Automatic</button>
+                       <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href = '/tasks';">
+                        <span data-feather="chevron-right"></span>
+                        Create Tasks</button>
+
+                      </h3>
+                    
+                      <div id="actions">
+                          {% include 'actions.html' %}                    
+                      </div>
+                </div>
+                <div class="col-sm">
+                    <h3>Tasks
+                        <!-- Default switch -->
+
+                        <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href = '/jobs';">
+                          <span data-feather="chevron-right"></span>
+                          Create Jobs</button>
+                    </h3>
+                                          
+                    <div id="tasks">
+                        {% include 'tasks.html' %}                    
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <h3>Jobs
+                        <button class="btn btn-sm btn-outline-secondary" onclick="window.location.href = '/jobs/run';">
+                          <span data-feather="chevron-right"></span>
+                          Run Jobs</button>
+                    </h3>
+                    <div id="jobs">
+                        {% include 'jobs.html' %}                    
+                    </div>
+                </div>
+              </div>
+            </div>
+        
+      </div>
+    </main>
