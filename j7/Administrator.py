@@ -19,7 +19,7 @@ from JobAdmin import JobAdmin
 from JobAdmin import Job
 from JobAdmin import JobType
 from JobAdmin import JobState
-from JobAdmin import JobRemoteState
+
 
 from AtomicCounter import AtomicCounter
 from MnrHelper import MNRHelper
@@ -54,6 +54,9 @@ class Administrator:
         self.actionCounter= AtomicCounter()        
         self.jobCounter= AtomicCounter()
         self.lastUpdate=time.time()
+        self.logs=[]
+        self.logs.append({ 'time': datetime.datetime.now() , 'text': "Hello "})
+
 
     def getStats(self):
         stats=Stats()
@@ -77,6 +80,12 @@ class Administrator:
               
         return stats
 
+    def getLogs(self):
+        return self.logs
+
+    def addToLog(self,text):
+        self.logs.append({ 'time': datetime.datetime.now() , 'text': text })
+            
     def addAction(self,name,actionType):
         ac=Action(self.actionCounter.increment(),name,ActionType[actionType])
         self.actionAdmin.actions.append(ac)
@@ -165,8 +174,8 @@ class Administrator:
         print ("Dah"+str(job.name) )
         time.sleep(random.random()*10)
         print ("Duh"+str(job.name))
-        job.remoteState=JobRemoteState.OK
-        job.remoteResult=0   
+        
+        job.remoteResult=random.randint(1, 3)  
         job.state=JobState.REMOTE_CALL_COMPLETE     
         job.runTime=time.time()-startTime
         

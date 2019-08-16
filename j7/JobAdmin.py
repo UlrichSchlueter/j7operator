@@ -14,10 +14,10 @@ class JobState(Enum):
     FAILED = auto()
     ENDED = auto()
 
-class JobRemoteState(Enum):
+class JobRemoteResult(Enum):
         OK = 1
-        FAILED = 2
-        
+        FAILED_ABORT = 2
+        FAILED_RETRY = 3               
             
 
 class JobType(Enum):
@@ -48,7 +48,7 @@ class Job:
         self.startTime=datetime.datetime.now() 
 
     def isFinalState(self):
-        if self.state in  [JobState.ENDED,JobState.FAILED, JobState.ENDED]:        
+        if self.state in  [JobState.ENDED,JobState.FAILED]:        
             return True
         else:
             return False        

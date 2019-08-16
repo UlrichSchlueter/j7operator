@@ -14,8 +14,6 @@ from JobAdmin import JobAdmin
 from JobAdmin import Job
 from JobAdmin import JobType
 from JobAdmin import JobState
-from JobAdmin import JobRemoteState
-
 from AtomicCounter import AtomicCounter
 
 

@@ -9,6 +9,7 @@
           <th>Job Runstate</th>
           <th>Job Result</th>
           <th>Job RemoteState</th>
+          <th>Job RemoteResult</th>          
           <th>StartTime</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
             <td>{{executor.futures._state(job.jobKey )}} </td>    
             <td>{{ job.jobresult }} </td> 
             <td>{{ job.remoteState }} </td> 
+            <td>{{ job.remoteResult }} </td>             
             <td>{{ job.startTime | formatdatetime  }} </td> 
         </tr>
         {% endif %}

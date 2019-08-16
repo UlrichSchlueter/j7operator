@@ -45,8 +45,8 @@ def format_datetime(value, format="%d %b %Y %H:%M"):
 
 def rerender():
     stats=administrator.getStats()   
-       
-    return render_template('index.html', currentPage=currentTab, actions=actions, tasks=tasks.tasks, jobs=jobs.allJobs(), executor=executor,stats=stats)
+    logs=administrator.getLogs()
+    return render_template('index.html', currentPage=currentTab, actions=actions, tasks=tasks.tasks, jobs=jobs.allJobs(), executor=executor,stats=stats, logs=logs)
 
 @app.route('/tasks')
 def genTasks():
@@ -66,7 +66,10 @@ def triggerJobs():
     res=administrator.triggerJobs()
     return rerender()    
 
-
+@app.route('/Logs')
+def getLogs():
+    
+    return rerender()    
 
 
 @app.route('/actions')
@@ -126,7 +129,7 @@ def menu(tabName):
 
 @app.route('/test1', methods=['POST', 'GET'])
 def test1():
-         
+    administrator.addToLog("Test1")
     administrator.addAction("test1","MNR")
     #socketio.send("GGH") 
     return rerender()
