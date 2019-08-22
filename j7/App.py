@@ -2,6 +2,8 @@ import sys
 from os.path import dirname
 sys.path.append(dirname(__file__))
 
+import logging
+
 from flask import Flask
 from flask_executor import Executor
 from flask import render_template
@@ -9,7 +11,7 @@ from flask import request
 
 import json
 
-
+import mylogging 
 from ActionAdmin import ActionAdmin
 from ActionAdmin import Action
 from TaskAdmin import TaskAdmin
@@ -19,6 +21,9 @@ from JobAdmin import Job
 from Administrator import Administrator
 
 
+
+logger = logging.getLogger('j7')
+logger.warning('Appp This will get logged to a file')
 
 print ("Hello __main")
 print (sys.path)
@@ -31,7 +36,7 @@ executor = Executor(app)
 tasks= TaskAdmin()
 jobs = JobAdmin()
 actions = ActionAdmin()
-administrator = Administrator(executor, tasks,jobs, actions)
+administrator = Administrator(app,executor, tasks,jobs, actions)
 #socketio = SocketIO(app)
 
 currentTab="Dashboard"
@@ -45,14 +50,25 @@ def format_datetime(value, format="%d %b %Y %H:%M"):
 
 def rerender():
     stats=administrator.getStats()   
-    logs=administrator.getLogs()
+    with app.open_resource('log/app.log') as f:
+        logs = f.readlines()
+        
     return render_template('index.html', currentPage=currentTab, actions=actions, tasks=tasks.tasks, jobs=jobs.allJobs(), executor=executor,stats=stats, logs=logs)
 
 @app.route('/tasks')
 def genTasks():
-    # Do signup form s
+    administrator.dequeueActions()
     res=administrator.genTasks()
-    
+    return rerender()
+
+@app.route('/stateInfo')
+def getStateInfo():
+ 
+    return render_template('stateInfo.html', administrator=administrator)
+
+@app.route('/tick')
+def doTick():
+    administrator.tick()
     return rerender()
 
 @app.route('/jobs')
@@ -118,28 +134,21 @@ def index():
 @app.route('/menu/<tabName>')
 def menu(tabName):
     global currentTab
-    print ("tab1 "+currentTab)  
     currentTab=tabName
-    print ("tab2 "+currentTab)     
     return rerender()  
-
-    #return render_template('dash.html', actions=actions, tasks=tasks, jobs=jobs.activeJobs(), executor=executor)
 
 
 
 @app.route('/test1', methods=['POST', 'GET'])
 def test1():
-    administrator.addToLog("Test1")
-    administrator.addAction("test1","MNR")
-    #socketio.send("GGH") 
+
+    administrator.addActionToQueue("test1","MNR")
     return rerender()
 
 @app.route('/test2', methods=['POST', 'GET'])
 def test2():    
-    administrator.addAction("test2","MNR")
-    genTasks()
-    genJobs()
-    triggerJobs()
+    administrator.addActionToQueue("test2","MNR")
+    
     return rerender()
 
 

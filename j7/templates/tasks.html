@@ -6,6 +6,7 @@
                   <th>Name</th>
                   <th>State</th>
                   <th>Parent ActionID</th>
+                  <th>Iteration</th>
                   <th>Result</th>
                   <th>StartTime</th>
                 </tr>
@@ -17,7 +18,8 @@
                         <td>{{ task.id }} </td>        
                         <td>{{ task.name }} </td>        
                         <td>{{ task.state }} </td>   
-                        <td>{{ task.actionID }} </td>               
+                        <td>{{ task.actionID }} </td>   
+                        <td>{{ task.iterations }} </td>               
                         <td>{{ task.taskResult }} </td>  
                         <td>{{ task.startTime | formatdatetime }} </td>   
                         

@@ -1,20 +1,38 @@
 <div class="row">
-        <div class="jumbotron" style="width: 18rem;" >              
-            <div class="card-body">
-                <h5 class="card-title">Actions</h5>
-                Active/Passive : {{ stats.activeActions }}/{{ stats.finishedActions }}
-            </div>
-          </div>
-          <div class="jumbotron" style="width: 18rem;" >
-              <div class="card-body">
-                  <h5 class="card-title">Tasks</h5>
-                  Active/Passive : {{ stats.activeTasks }}/{{ stats.finishedTasks }}
-              </div>
-            </div>
-            <div class="jumbotron" style="width: 18rem;"> 
+        <div class="col">
+                <div class="card" >              
                 <div class="card-body">
-                    <h5 class="card-title">Jobs</h5>
-                    Active/Passive : {{ stats.activeJobs }}/{{ stats.finishedJobs }}
+                        <h5 class="card-title">State</h5>
+                        <div id="StateInfo">
+                       
+                          
+                        </div>
                 </div>
               </div>
-            </div>
+        </div> 
+        <div class="col">
+                <div class="card" >              
+                <div class="card-body">
+                        <h5 class="card-title">Actions</h5>
+                        Queued/Active/Passive : {{ stats.queuedActions }}/{{ stats.activeActions }}/{{ stats.finishedActions }}
+                </div>
+              </div>
+        </div>
+        <div class="col">
+                <div class="card"  >              
+                <div class="card-body">
+                        <h5 class="card-title">Tasks</h5>
+                        Active/Passive : {{ stats.activeTasks }}/{{ stats.finishedTasks }}
+                </div>
+              </div>
+        </div>
+        <div class="col">
+                <div class="card"  >              
+                <div class="card-body">
+                        <h5 class="card-title">Jobs</h5>
+                        Active/Passive : {{ stats.activeJobs }}/{{ stats.finishedJobs }}
+                </div>
+              </div>
+        </div>   
+                  
+    </div>

@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 import jsons
 import time
 import random
@@ -18,11 +18,12 @@ from AtomicCounter import AtomicCounter
 
 
 class ActionState(Enum):
-    PENDING = 1
-    TASKS_CREATED = 2
-    ONGOING = 3
-    ENDED = 4
-    FAILED = 5
+    PENDING = auto()
+    TASKS_CREATED = auto()
+    ONGOING = auto()
+    ENDED = auto()
+    FAILED = auto()
+    QUEUED = auto()
 
 class ActionType(Enum):
     MNR = 1
@@ -57,14 +58,23 @@ class ActionAdmin:
    
 
     def __init__(self):
-        self.actions=[]        
+        self.actions=[]    
+        self.actionQueue=[]    
         self.actionCounter= AtomicCounter()                
         
 
-    def addAction(self,name,actionType):
-        ac=Action(self.actionCounter.increment(),name,actionType)
-        self.actions.append(ac)
+    def addActionToQueue(self,ac):
+        ac.state=ActionState.QUEUED
+        self.actionQueue.append(ac)
         return ac
+
+    def dequeueActions(self):
+        for ac in self.actionQueue:
+            ac.state=ActionState.PENDING
+            self.actions.append(ac)
+            
+        self.actionQueue=[] 
+
 
     def toStr(self):
         retThis=""

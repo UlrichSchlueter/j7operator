@@ -15,9 +15,9 @@ class JobState(Enum):
     ENDED = auto()
 
 class JobRemoteResult(Enum):
-        OK = 1
-        FAILED_ABORT = 2
-        FAILED_RETRY = 3               
+    OK = 1
+    FAILED_ABORT = 2
+    FAILED_RETRY = 3               
             
 
 class JobType(Enum):

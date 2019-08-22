@@ -1,0 +1,13 @@
+
+
+
+{% for row in range(1, 5) %}
+{% if row == administrator.adminPhase %}
+<span class="badge badge-pill badge-dark"> {{ row }}</span> >
+{% else %}
+<span class="badge badge-pill badge-light">{{ row }}</span> >
+{% endif %}
+{% endfor %}
+( {{ administrator.adminState }} )
+
+

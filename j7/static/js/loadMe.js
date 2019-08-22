@@ -53,6 +53,7 @@ function myTimer() {
     var actionsXhttp = new XMLHttpRequest();
     var overviewXhttp = new XMLHttpRequest();
     var grapshUpdateXhttp=new XMLHttpRequest();
+    var stateUpdateXhttp=new XMLHttpRequest();
 
 
     xhttp.onreadystatechange = function() {
@@ -73,6 +74,9 @@ function myTimer() {
 
                 grapshUpdateXhttp.open("GET", '/getGraphData', true);
                 grapshUpdateXhttp.send();
+
+                stateUpdateXhttp.open("GET", '/stateInfo', true);
+                stateUpdateXhttp.send();
 
 
                 lastEpoch=xhttp.responseText
@@ -100,6 +104,11 @@ function myTimer() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("Overview").innerHTML = this.responseText;
             }};
+
+            stateUpdateXhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  document.getElementById("StateInfo").innerHTML = this.responseText;
+              }};
 
             grapshUpdateXhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {

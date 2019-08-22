@@ -24,10 +24,13 @@ extra_js:
   <body>
       {% include 'topNavBar.html' %} 
 
+      
+
 <div class="container-fluid">
   <div class="row">
     
     {% include 'sideNavBar.html' %} 
+    
     {% if currentPage == "Dashboard" %}
         {% include 'dashboardTab.html' %} 
     {% elif currentPage == "Actions" %}

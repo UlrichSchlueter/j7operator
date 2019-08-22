@@ -1,0 +1,34 @@
+---
+web:
+    -   name: server01
+        label: apache
+    -   name: server02
+        label: apache
+    -   name: server03
+        label: apache
+    -   name: server04
+        label: apache
+    -   name: server05
+        label: apache
+
+app:
+    -   name: server101
+        label: java
+    -   name: server102
+        label: java
+    -   name: server103
+        label: java
+    -   name: server104
+        label: java
+
+db:
+    -   name: server201
+        label: couchbase
+    -   name: server202
+        label: couchbase
+    -   name: server203
+        label: couchbase
+    -   name: server204
+        label: couchbase
+    -   name: server205
+        label: couchbase

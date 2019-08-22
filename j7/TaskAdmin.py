@@ -34,12 +34,20 @@ class Task:
         self.id=taskCounter.increment()
         self.state=TaskState.PENDING
         self.actionID=actionID
+        self.iterations=0
         self.taskType=taskType
         self.taskResult=None
         self.startTime=datetime.datetime.now()
 
     def isFinalState(self):
-        if self.state==TaskState.ENDED or self.state==TaskState.FAILED:
+        if self.state==TaskState.ENDED:
+            return True
+        else:
+            return False   
+
+    def isInErrorState(self):
+       
+        if self.state==TaskState.FAILED:
             return True
         else:
             return False     
@@ -62,6 +70,13 @@ class TaskAdmin:
                 rcThis.append(t)
         return rcThis
 
+    def findTaskByID(self,id):
+        task=None
+        for t in self.tasks:
+            if t.id==id:
+                task=t
+                break
+        return task
 
     def activeTasks(self):
         activeTasks=[]
@@ -77,12 +92,16 @@ class TaskAdmin:
                 break
     
     def setTaskState(self,id,state):
-        rcThis=[]
         for t in self.tasks:
             if t.id==id:
                 t.state=state
                 break
-      
+
+    def markToRetry(self,id):
+        task=self.findTaskByID(id)
+        task.state=TaskState.PENDING
+        task.iterations+=1
+        task.taskResult=None
 
     def toJSON(self):
         return jsons.dumps(self)            
