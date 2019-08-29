@@ -31,7 +31,31 @@ class ActionType(Enum):
     REBOOT = 3
     PATCH = 4
 
+class ActionStats:
+    def __init__(self):
+        self.labels=[]
+        self.datasets=[]
+        #self.addEntry("2018-01-22T16:00:00.000Z", "2018-01-23T05:40:44.626Z","Action1","task")
+        #self.addEntry("2018-01-23T18:00:00.000Z", "2018-01-23T22:40:44.626Z","Action2","task")
+        
+
+    def addEntry(self, startTime, stopTime, actionName, taskName):
+            targetDict=None
+            for dataDict in self.datasets:
+                if dataDict['tag']==actionName:
+                    targetDict=dataDict
+                    break
+            if targetDict==None:
+                targetDict={}
+                self.datasets.append(targetDict)
+                self.labels.append(actionName)    
+            targetDict['data']=[]
+            targetDict['tag']=actionName     
+               
+            targetDict['data'].append([startTime, stopTime, taskName])
    
+    def getData(self):
+        return self.labels, self.datasets
 
 class Action():
    
@@ -42,6 +66,7 @@ class Action():
         self.actionType=actionType
         self.tasksToGo=0
         self.startTime=datetime.datetime.now()
+        self.stopTime=None
         
 
     def isFinalState(self):
@@ -53,14 +78,13 @@ class Action():
     def toJSON(self):
         return jsons.dumps(self)        
                 
-class ActionAdmin:
-
-   
+class ActionAdmin:   
 
     def __init__(self):
         self.actions=[]    
         self.actionQueue=[]    
-        self.actionCounter= AtomicCounter()                
+        self.actionCounter= AtomicCounter()    
+        self.actionStats=ActionStats()            
         
 
     def addActionToQueue(self,ac):
@@ -95,11 +119,18 @@ class ActionAdmin:
             if ac.id==id:
                 ac.tasksToGo-=1
         return ac.tasksToGo
+        
 
     def setActionToDone(self,actionID):
         for ac in self.actions:
             if ac.id==actionID:
                 ac.state=ActionState.ENDED
+                ac.stopTime=datetime.datetime.now()
+
+    def addTaskStat(self, actionID,startTime, stopTime, taskName):
+        for ac in self.actions:
+            if ac.id==actionID:
+                self.actionStats.addEntry(startTime, stopTime, "#"+str(actionID) + ":"+ac.name, taskName)
         
 
     def toJSON(self):

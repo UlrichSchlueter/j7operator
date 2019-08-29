@@ -26,7 +26,10 @@ class TaskErrorStrategy(Enum):
     NONE = auto()
     
         
-taskCounter= AtomicCounter()                   
+taskCounter= AtomicCounter()            
+
+
+
 
 class Task:
     def __init__(self, name, actionID,taskType):
@@ -38,6 +41,7 @@ class Task:
         self.taskType=taskType
         self.taskResult=None
         self.startTime=datetime.datetime.now()
+        self.stopTime=None
 
     def isFinalState(self):
         if self.state==TaskState.ENDED:
@@ -92,10 +96,14 @@ class TaskAdmin:
                 break
     
     def setTaskState(self,id,state):
+        t=None
         for t in self.tasks:
             if t.id==id:
                 t.state=state
+                if t.isFinalState():                   
+                    t.stopTime=datetime.datetime.now()
                 break
+        return t
 
     def markToRetry(self,id):
         task=self.findTaskByID(id)

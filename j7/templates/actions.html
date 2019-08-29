@@ -1,33 +1,4 @@
-<table class="table table-striped table-sm">
-  <thead>
-          <tr>
-             <th>#</th>
-            <th>Name</th>
-            <th>State</th>
-            <th>Type</th>
-            
-            
-          </tr>
-        </thead>
-        <tbody>
-            {% for action in actions.actionQueue %}
-           
-            <tr>
-               
-                <td>{{ action.id }} </td>        
-                <td>{{ action.name }} </td>        
-                <td>{{ action.state }} </td>      
-                <td>{{ action.actionType   }} </td>      
-                
-                
 
-            </tr>
-             
-    {% endfor %}
-    
-          
-        </tbody>
-      </table>
 
 <table class="table table-striped table-sm">
     <thead>
@@ -38,6 +9,7 @@
               <th>Type</th>
               <th>TasksToGo</th>
               <th>StartTime</th>
+              <th>StopTime</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +23,10 @@
                   <td>{{ action.state }} </td>      
                   <td>{{ action.actionType   }} </td>      
                   <td>{{ action.tasksToGo   }} </td>    
-                  <td>{{ action.startTime | formatdatetime }} </td>        
+                  <td>{{ action.startTime | formatdatetime }} </td>   
+                  <td>{{ action.stopTime | formatdatetime }} </td>   
+                
+
 
               </tr>
               {% endif %}

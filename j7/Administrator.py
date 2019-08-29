@@ -207,9 +207,12 @@ class Administrator:
         for task in self.tasksAdmin.tasks:
             if task.state==TaskState.JOB_FINISHED:            
                 tasksLeft=self.actionAdmin.downTaskCounterByActionID(task.actionID)
-                self.tasksAdmin.setTaskState(task.id,TaskState.ENDED)                
+                t=self.tasksAdmin.setTaskState(task.id,TaskState.ENDED)    
+                #actionID,startTime, stopTime, taskName 
+                self.actionAdmin.addTaskStat(t.actionID,t.startTime, t.stopTime,  t.name)
                 if tasksLeft==0:
                     self.actionAdmin.setActionToDone(task.actionID)
+
         for ac in self.actionAdmin.actions:
             if  ac.state!=ActionState.PENDING:                                       
                 if ac.tasksToGo==0:
@@ -225,6 +228,7 @@ class Administrator:
                 fn=self.executor.submit_stored(job.jobKey, self.myBackGroundTask,job)
                 fn.add_done_callback(self.callBack)
                 job.state=JobState.TRIGGERED
+                
 
     def callBack(self,future):
         print ("Callback")

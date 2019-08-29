@@ -10,7 +10,7 @@ var myChart
 
 feather.replace()
 
-  function createChart() {
+function createChart() {
   // Graphs
   var ctx = document.getElementById('myChart')
   // eslint-disable-next-line no-unused-vars
@@ -45,12 +45,51 @@ feather.replace()
 }
 
 
+function createActionsChart() {
+  // Graphs
+  var ctx = document.getElementById('actionChart')
+  // eslint-disable-next-line no-unused-vars
+  myChart = new Chart(ctx, {
+    type: 'timeline',
+    data: {
+      labels: [  
+        "None"      
+      ],
+      datasets: [{
+        data: [          
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+       // "textPadding": 4
+       animation: {
+        duration: 0
+        },
+       "elements": {
+        "colorFunction": function(text, data, dataset, index) {
+            return Color('black');
+        },
+        "showText": true,
+        "textPadding": 4
+       
+    }
+    }
+  })
+}
+
+
 function myTimer() {
     var d = new Date();
     var xhttp = new XMLHttpRequest();
     var jobsXhttp = new XMLHttpRequest();
     var tasksXhttp = new XMLHttpRequest();
     var actionsXhttp = new XMLHttpRequest();
+    var queueXhttp = new XMLHttpRequest();
     var overviewXhttp = new XMLHttpRequest();
     var grapshUpdateXhttp=new XMLHttpRequest();
     var stateUpdateXhttp=new XMLHttpRequest();
@@ -69,10 +108,13 @@ function myTimer() {
                 actionsXhttp.open("GET", '/actionsUpdate', true);
                 actionsXhttp.send();
 
+                queueXhttp.open("GET", '/queueUpdate', true);
+                queueXhttp.send();
+
                 overviewXhttp.open("GET", '/statUpdate', true);
                 overviewXhttp.send();
 
-                grapshUpdateXhttp.open("GET", '/getGraphData', true);
+                grapshUpdateXhttp.open("GET", '/getActionGraphData', true);
                 grapshUpdateXhttp.send();
 
                 stateUpdateXhttp.open("GET", '/stateInfo', true);
@@ -109,12 +151,19 @@ function myTimer() {
               if (this.readyState == 4 && this.status == 200) {
                   document.getElementById("StateInfo").innerHTML = this.responseText;
               }};
+            
+              queueXhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("queue").innerHTML = this.responseText;
+                }};
+
+              
 
             grapshUpdateXhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var myObj = JSON.parse(this.responseText);
-                    if (myChart === undefined) { createChart () }
-                    myChart.data.datasets[0].data = myObj.data;
+                    if (myChart === undefined) { createActionsChart () }
+                    myChart.data.datasets = myObj.datasets;
                     myChart.data.labels = myObj.labels;
 
                     myChart.update();

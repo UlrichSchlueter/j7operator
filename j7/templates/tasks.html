@@ -9,6 +9,7 @@
                   <th>Iteration</th>
                   <th>Result</th>
                   <th>StartTime</th>
+                  <th>StopTime</th>
                 </tr>
               </thead>
               <tbody>
@@ -22,6 +23,7 @@
                         <td>{{ task.iterations }} </td>               
                         <td>{{ task.taskResult }} </td>  
                         <td>{{ task.startTime | formatdatetime }} </td>   
+                        <td>{{ task.stopTime | formatdatetime }} </td>   
                         
                     </tr>
                     {% endif %}    

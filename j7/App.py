@@ -19,7 +19,7 @@ from TaskAdmin import Task
 from JobAdmin import JobAdmin
 from JobAdmin import Job
 from Administrator import Administrator
-
+import datetime
 
 
 logger = logging.getLogger('j7')
@@ -40,6 +40,10 @@ administrator = Administrator(app,executor, tasks,jobs, actions)
 #socketio = SocketIO(app)
 
 currentTab="Dashboard"
+
+def defaultDateFormatter(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
 
 @app.template_filter('formatdatetime')
 def format_datetime(value, format="%d %b %Y %H:%M"):
@@ -109,7 +113,13 @@ def tasksUpdate():
 
 @app.route('/actionsUpdate')
 def actionsUpdate():    
-    return render_template('actions.html', actions=actions)    
+    return render_template('actions.html', actions=actions)   
+
+@app.route('/queueUpdate')
+def queueUpdate():    
+    return render_template('actionsQueue.html', actions=actions)    
+
+
 
 @app.route('/statUpdate')
 def statsUpdate():    
@@ -123,6 +133,38 @@ def getGraphData():
     graphData={ 'labels' :labels, 'data' : data    }
 
     return json.dumps(graphData)
+
+@app.route('/getActionGraphData')
+def getActionGraphData():    
+    #https://github.com/fanthos/chartjs-chart-timeline/wiki
+    #labels, data=jobs.getJobsStats()
+    labels = [ "test", "test2" ]
+    datasets =[ { "data": [ [
+                      "2018-01-21T16:00:00.000Z",
+                      "2018-01-22T05:40:44.626Z",
+                      "Unknown"
+                         ]   ,
+                        [
+                      "2018-01-22T16:00:00.000Z",
+                      "2018-01-23T05:40:44.626Z",
+                      "Unknown"
+                        ]
+                        ] ,
+                    "tag": "test3"
+                  }
+                ,
+                {
+                "data":[  [
+                      "2018-01-22T16:00:00.000Z",
+                      "2018-01-23T05:40:44.626Z",
+                      "Unknown"
+                        ]   ]                                
+                  }
+            ]
+    labels, datasets=actions.actionStats.getData()
+    graphData={ 'labels' : labels, 'datasets' : datasets   }
+
+    return json.dumps(graphData, default=defaultDateFormatter)
         
 
 @app.route('/')
@@ -147,7 +189,7 @@ def test1():
 
 @app.route('/test2', methods=['POST', 'GET'])
 def test2():    
-    administrator.addActionToQueue("test2","MNR")
+    administrator.addActionToQueue("test2","REBOOT")
     
     return rerender()
 
